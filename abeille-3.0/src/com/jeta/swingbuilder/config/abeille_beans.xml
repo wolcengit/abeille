@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<abeillebuilder version="3.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="abeille_beans.xsd">
+	<beans>
+		<bean id="jlabel" class="javax.swing.JLabel" description="JLabel" icon="forms/16x16/palette_label16.gif" scrollable="false">
+			<properties>
+				<property name="text" value="Test" write="true" />
+				<property name="opaque" write="true" />
+				<property name="taborder@Integer" value="1" write="true" />
+				<property name="binding@String" value="person.name=text;" />
+				<property name="foreground@Color" value="192,192,192" codeonly="true" write="true" editor="com.jeta.sample.SampleColorEditor" />
+				<property name="test_color@Color" value="192,192,192" codeonly="true" write="true" />
+			</properties>
+		</bean>
+		<bean id="jlabel1" description="JLabel1" ref="jlabel">
+			<ctor>
+				<parm index="0" class="String" value="Test1" />
+				<parm index="1" class="Integer" value="0" />
+			</ctor>
+		</bean>
+		<bean id="jlabel2" description="JLabel2" icon="development/16x16/bean.png" ref="jlabel">
+			<ctor factory="local.LocalSwingFactory.createJLabel">
+			</ctor>
+		</bean>
+		<bean id="jtextfield" class="javax.swing.JTextField" description="JTextField" icon="forms/16x16/text_field.png" scrollable="false">
+			<properties>
+				<property name="text" value="Test" write="true" />
+				<property name="opaque" write="true" />
+				<property name="taborder@Integer" value="1" write="true" />
+				<property name="binding@String" value="person.name=text;" />
+				<property name="foreground@Color" value="192,192,192" codeonly="true" write="true" />
+			</properties>
+		</bean>
+			</beans>
+</abeillebuilder>

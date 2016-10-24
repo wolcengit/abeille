@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ant deploy  zhouhj@foxhis.com -->
+<project name="abeille-3.0" basedir="." default="deploy">
+	<property name="prj.name" value="${ant.project.name}" />
+	<property name="prj.dir" value="${basedir}" />
+	
+	<property name="prj.src.dir" value="${prj.dir}/src" />
+	<property name="prj.lib.dir" value="${prj.dir}/lib" />
+	<property name="prj.bin.dir" value="${prj.dir}/bin" />
+	<property name="prj.dest.dir" value="${prj.dir}/dest" />
+
+	<path id="prj.lib.cp">
+		<fileset dir="${prj.lib.dir}">
+			<include name="*.jar" />
+		</fileset>
+	</path>
+	
+	<pathconvert property="prj.mf.cp" pathsep=" ">
+		<mapper>
+			<chainedmapper>
+				<flattenmapper />
+				<globmapper from="*" to="*" />
+			</chainedmapper>
+		</mapper>
+		<path>
+			<fileset dir="${prj.lib.dir}">
+				<include name="*.jar" />
+			</fileset>
+		</path>
+	</pathconvert>
+	
+	<target name="clean" >
+		<delete dir="${prj.bin.dir}" failonerror="false" />
+		<delete dir="${prj.dest.dir}" failonerror="false" />
+	</target>
+	
+	<target name="prepare" depends="clean">
+		
+		<mkdir dir="${prj.bin.dir}" />
+		<mkdir dir="${prj.dest.dir}" />
+	</target>
+
+	<target name="compile" depends="prepare" >
+		<javac encoding="utf-8" srcdir="${prj.src.dir}" destdir="${prj.bin.dir}"  >
+			<classpath refid="prj.lib.cp" />
+		</javac>
+	</target>
+
+	<target name="jar" depends="compile" >
+		<copy todir="${prj.bin.dir}">
+			<fileset dir="${prj.src.dir}">
+				<include name="**/*.*" />
+				<exclude name="**/*.java" />
+			</fileset>
+		</copy>		
+		<jar jarfile="${prj.dest.dir}\${prj.name}.jar">
+			<fileset dir="${prj.bin.dir}">
+				<include name="**/*.*" />
+			</fileset>
+			<manifest>
+                <attribute name="Built-By" value="abeille"/>
+                <attribute name="Main-Class" value="com.jeta.swingbuilder.main.Launcher"/>
+                <attribute name="Sealed" value="false"/>
+                <attribute name="Class-Path" value="${prj.mf.cp}"/>
+			</manifest>
+		</jar>
+	</target>
+	<target name="jarsrc" depends="compile" >
+		<jar jarfile="${prj.dest.dir}\${prj.name}-sources.jar">
+			<fileset dir="${prj.src.dir}">
+				<include name="**/*.*" />
+			</fileset>
+	        <fileset file="${prj.dir}/.project"/>
+	        <fileset file="${prj.dir}/.classpath"/>
+	        <fileset file="${prj.dir}/build.xml"/>
+		</jar>
+	</target>
+	<target name="deploy" depends="jar,jarsrc" >
+		<copy todir="${prj.dest.dir}" preservelastmodified="true">
+			<fileset dir="${prj.lib.dir}">
+				<include name="*" />
+			</fileset>
+		</copy>
+	</target>
+</project>

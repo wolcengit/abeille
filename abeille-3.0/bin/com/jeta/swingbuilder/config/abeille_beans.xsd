@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	elementFormDefault="qualified">
+	<xs:element name="abeillebuilder">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="beans" minOccurs="1" maxOccurs="1"/>
+			</xs:sequence>
+			<xs:attribute name="version" use="required" type="xs:string" />
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="beans">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element maxOccurs="unbounded" ref="bean" minOccurs="0" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="bean">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="ctor" minOccurs="0" maxOccurs="1"/>
+				<xs:element ref="properties" minOccurs="0" maxOccurs="1"/>
+			</xs:sequence>
+			<xs:attribute name="id" use="required" type="xs:string" />
+			<xs:attribute name="class" use="optional" type="xs:string" />
+			<xs:attribute name="description" use="optional"
+				type="xs:string" />
+			<xs:attribute name="icon" use="optional" type="xs:string" />
+            <xs:attribute name="scrollable" type="xs:boolean" use="optional"></xs:attribute>
+            <xs:attribute name="ref" use="optional" type="xs:string" />
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="ctor">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element maxOccurs="unbounded" ref="parm" minOccurs="0" />
+			</xs:sequence>
+			<xs:attribute name="factory" use="optional" type="xs:string" />
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="parm">
+		<xs:complexType>
+			<xs:attribute name="index" use="required" type="xs:int" />
+			<xs:attribute name="class" use="required" type="xs:string" />			<xs:attribute name="value" use="required" type="xs:string" />
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="properties">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element maxOccurs="unbounded" ref="property"
+					minOccurs="0" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="property">
+		<xs:complexType>
+			<xs:attribute name="name" use="required" type="xs:string" />
+			<xs:attribute name="value" use="optional" type="xs:string" />
+			<xs:attribute name="codeonly" type="xs:boolean" use="optional" />
+			<xs:attribute name="write" type="xs:boolean" use="optional" />
+			<xs:attribute name="editor" type="xs:string" use="optional" />
+		</xs:complexType>
+	</xs:element>
+
+</xs:schema>
